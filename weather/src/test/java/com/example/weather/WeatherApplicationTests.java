@@ -1,10 +1,10 @@
-package com.pistatio.demo;
+package com.example.weather;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class WeatherApplicationTests {
 
 	@Test
 	void contextLoads() {
