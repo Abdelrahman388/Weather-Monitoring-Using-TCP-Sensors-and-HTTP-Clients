@@ -41,15 +41,24 @@ public class TcpServer implements Runnable {
                 BufferedWriter out = new BufferedWriter(
                         new OutputStreamWriter(socket.getOutputStream()))
             ) {
-
+                
                 String inputLine = in.readLine();
                 if (inputLine != null) {
 
                     String[] inputParts = inputLine.split(",");
                     if (inputParts.length >= 3) {
-                        String city = inputParts[0].trim();
-                        double temperature = Double.parseDouble(inputParts[1].trim());
-                        double humidity = Double.parseDouble(inputParts[2].trim());
+                        String city ="" ;
+                        double temperature= 0;
+                        double humidity=0;
+                        try{
+                            city = inputParts[0].trim();
+                            temperature = Double.parseDouble(inputParts[1].trim());
+                            humidity = Double.parseDouble(inputParts[2].trim());
+                        } catch (Exception e){
+                            out.write("Invalid Parameters\n");
+                            out.flush();
+                            return;
+                        }
                         LocalDateTime timestamp = LocalDateTime.now();
                         
                         WeatherReading reading = new WeatherReading(city, temperature, humidity, timestamp);
@@ -59,6 +68,15 @@ public class TcpServer implements Runnable {
                         out.flush();
                         System.out.println("Received update: " + city + " Temp: " + temperature + " Humidity: " + humidity);
                     }
+                    else {
+                        out.write("Invalid Parameters\n");
+                        out.flush();
+                        return;
+                    }
+                } else {
+                    out.write("Invalid Parameters\n");
+                    out.flush();
+                    return;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
