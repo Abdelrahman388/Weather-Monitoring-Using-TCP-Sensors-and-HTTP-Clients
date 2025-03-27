@@ -1,5 +1,7 @@
 package com.example.weather;
 
+import java.net.URLDecoder;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,7 +10,7 @@ public class WeatherRestController {
 
     @GetMapping("/weather/{city}")
     public ResponseEntity<?> getWeather(@PathVariable String city) {
-        WeatherReading reading = WeatherStorage.getWeather(city);
+        WeatherReading reading = WeatherStorage.getWeather(URLDecoder.decode(city));
         if (reading != null) {
             return ResponseEntity.ok(reading);
         } else {
